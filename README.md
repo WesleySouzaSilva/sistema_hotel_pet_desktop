@@ -20,7 +20,7 @@ O sistema ja esta em funcionamento, porém esse codigo é apenas um pedaço e am
 - Framework Jasper Reports para criação de relatorios
 - Wamp server para uso e gerenciamento do banco de dados
   
-## 📝 Autor
+## Autor
 
 Este codigo e de minha autoria (Wesley Souza).
 
