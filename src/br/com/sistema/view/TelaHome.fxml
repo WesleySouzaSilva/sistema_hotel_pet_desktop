@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="689.0" prefWidth="1236.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaHome">
+   <children>
+      <ImageView fitHeight="693.0" fitWidth="1236.0">
+         <image>
+            <Image url="@../icones/icon/fundo.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="6.0" layoutY="5.0" prefHeight="682.0" prefWidth="1227.0">
+         <children>
+            <TabPane layoutX="5.0" layoutY="57.0" prefHeight="628.0" prefWidth="1213.0" tabClosingPolicy="UNAVAILABLE">
+               <tabs>
+                  <Tab text="Lista de Agendamentos">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="606.0" prefWidth="1008.0">
+                           <children>
+                              <TableView fx:id="tbAgenda" layoutY="47.0" prefHeight="314.0" prefWidth="1213.0">
+                                <columns>
+                                  <TableColumn fx:id="clnNumero" prefWidth="75.0" text="Numero" />
+                                  <TableColumn fx:id="clnNomePet" prefWidth="264.0" text="Nome Pet" />
+                                    <TableColumn fx:id="clnNomeResponsavel" prefWidth="266.0" text="Nome Responsavel" />
+                                    <TableColumn fx:id="clnTipo" prefWidth="132.0" text="Tipo" />
+                                    <TableColumn fx:id="clnDataEntrada" prefWidth="128.0" text="Data Entrada" />
+                                    <TableColumn fx:id="clnDataSaida" prefWidth="129.0" text="Data Saida" />
+                                    <TableColumn fx:id="clnValor" prefWidth="91.0" text="Valor" />
+                                    <TableColumn fx:id="clnSituacao" prefWidth="125.0" text="Situação" />
+                                </columns>
+                              </TableView>
+                              <Label layoutY="14.0" prefHeight="21.0" prefWidth="78.0" text="Data Inicio :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="txtDataInicial" layoutX="79.0" layoutY="12.0" prefHeight="25.0" prefWidth="110.0" />
+                              <Label layoutX="206.0" layoutY="14.0" prefHeight="21.0" prefWidth="78.0" text="Data Final :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <DatePicker fx:id="txtDataFinal" layoutX="285.0" layoutY="12.0" prefHeight="25.0" prefWidth="110.0" />
+                              <Label layoutX="633.0" layoutY="14.0" prefHeight="21.0" prefWidth="78.0" text="Buscar por :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cmbBuscar" layoutX="712.0" layoutY="12.0" prefHeight="25.0" prefWidth="157.0" />
+                              <TextField fx:id="txtPesquisa" layoutX="871.0" layoutY="12.0" prefHeight="25.0" prefWidth="307.0" />
+                              <Button fx:id="btnPesquisar" layoutX="1178.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="27.0">
+                                 <graphic>
+                                    <ImageView fitHeight="17.0" fitWidth="19.0">
+                                       <image>
+                                          <Image url="@../icones/icon/searching-for-a-businessman.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label layoutX="8.0" layoutY="365.0" prefHeight="21.0" prefWidth="170.0" text="Qtde Pets Hospedagem :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeHospedagem" layoutX="178.0" layoutY="362.0" prefHeight="21.0" prefWidth="36.0" textFill="#008d1c">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="284.0" layoutY="365.0" prefHeight="21.0" prefWidth="120.0" text="Qtde Disponivel :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeDisponivelHospedagem" layoutX="400.0" layoutY="362.0" prefHeight="21.0" prefWidth="36.0" textFill="#2803f5">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnNovo" layoutX="6.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Novo Agendamento">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/icon/sinal-de-adicao-em-um-circulo-preto.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnEditar" layoutX="62.0" layoutY="518.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Editar Agendamento">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/formulari.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnExcluir" layoutX="310.0" layoutY="518.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="171.0" text="Excluir Agendamento">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnConcluir" layoutX="206.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="171.0" text="Concluir Agendamento">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/icon/rebote.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnImprimir" layoutX="409.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Imprimir Agendamento">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/icon/printer.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label fx:id="lblUsuario" layoutX="71.0" layoutY="574.0" prefHeight="23.0" prefWidth="264.0">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="6.0" layoutY="576.0" text="Usuario :">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblData" layoutX="403.0" layoutY="574.0" prefHeight="23.0" prefWidth="78.0">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="353.0" layoutY="576.0" text="Data :">
+                                 <font>
+                                    <Font name="MS Reference Sans Serif" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblHora" layoutX="496.0" layoutY="574.0" prefHeight="23.0" prefWidth="136.0">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="514.0" layoutY="365.0" prefHeight="21.0" prefWidth="85.0" text="Qtde Total :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeTotalHospedagem" layoutX="598.0" layoutY="362.0" prefHeight="21.0" prefWidth="36.0" textFill="#2803f5">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="791.0" layoutY="363.0" prefHeight="25.0" prefWidth="148.0" text="Serviços Adicionais">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TableView fx:id="tbServico" layoutX="791.0" layoutY="390.0" prefHeight="117.0" prefWidth="424.0">
+                                <columns>
+                                  <TableColumn fx:id="clnDataServico" prefWidth="88.0" text="Data " />
+                                  <TableColumn fx:id="clnDescricaoServico" prefWidth="234.0" text="Descrição" />
+                                    <TableColumn fx:id="clnValorServico" prefWidth="96.0" text="Valor" />
+                                </columns>
+                              </TableView>
+                              <Button fx:id="btnNovoServico" layoutX="791.0" layoutY="519.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="116.0" text="Novo Serviço">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/icon/rebote.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnEditarServico" layoutX="956.0" layoutY="519.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="116.0" text="Editar Serviço">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/formulari.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnExcluirServico" layoutX="1097.0" layoutY="519.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="116.0" text="Excluir Serviço">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/depositphotos_71920725-stock-illustration-the-trashcan-icon-dustbin-symbol.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Label layoutY="422.0" prefHeight="21.0" prefWidth="189.0" text="Observação Agendamento :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnVisualizarAgenda" layoutX="552.0" layoutY="518.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Visualizar Agenda">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/6614_128x128.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <TextArea fx:id="txtObservacao" editable="false" layoutX="189.0" layoutY="414.0" prefHeight="13.0" prefWidth="388.0" text="&#10;" />
+                              <Label layoutX="418.0" layoutY="14.0" prefHeight="21.0" prefWidth="78.0" text="Tipo :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="cmbTipo" layoutX="457.0" layoutY="12.0" prefHeight="25.0" prefWidth="154.0" />
+                              <Label layoutX="8.0" layoutY="389.0" prefHeight="21.0" prefWidth="170.0" text="Qtde Pets Diária :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeDiaria" layoutX="178.0" layoutY="386.0" prefHeight="21.0" prefWidth="36.0" textFill="#008d1c">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="285.0" layoutY="389.0" prefHeight="21.0" prefWidth="120.0" text="Qtde Disponivel :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeDisponivelDiaria" layoutX="401.0" layoutY="386.0" prefHeight="21.0" prefWidth="36.0" textFill="#2803f5">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="514.0" layoutY="389.0" prefHeight="21.0" prefWidth="85.0" text="Qtde Total :">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="lblQtdeTotalDiaria" layoutX="598.0" layoutY="386.0" prefHeight="21.0" prefWidth="36.0" textFill="#2803f5">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="btnImprimirLista" layoutX="607.0" layoutY="467.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="165.0" text="Imprimir Lista Agenda">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0">
+                                       <image>
+                                          <Image url="@../icones/1310556350_Printer.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children></AnchorPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </children></AnchorPane>
+      <HBox layoutX="3.0" layoutY="7.0" prefHeight="50.0" prefWidth="1221.0">
+         <children>
+            <MenuBar opacity="0.94" prefHeight="50.0" prefWidth="1238.0">
+              <menus>
+                  <Menu mnemonicParsing="false" text="Usuarios">
+                    <items>
+                      <MenuItem fx:id="menuListaUsuario" mnemonicParsing="false" text="Lista de Usuarios" />
+                    </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/7837_64x64.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Clientes">
+                    <items>
+                      <MenuItem fx:id="menuListaClientes" mnemonicParsing="false" text="Lista de Clientes" />
+                        <Menu mnemonicParsing="false" text="Adicionar">
+                          <items>
+                            <MenuItem fx:id="menuClientesPF" mnemonicParsing="false" text="Clientes Pessoa Física" />
+                              <MenuItem fx:id="menuClientesPJ" mnemonicParsing="false" text="Clientes Pessoa Jurídica" />
+                              <MenuItem fx:id="menuNovoClientePet1" mnemonicParsing="false" text="Novo Cliente/Pet" />
+                          </items>
+                        </Menu>
+                    </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/clients.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Pets">
+                     <items>
+                        <MenuItem fx:id="menuListaCategoria" mnemonicParsing="false" text="Lista de Categoria" />
+                        <MenuItem fx:id="menuListaPet" mnemonicParsing="false" text="Lista de Pets" />
+                        <Menu mnemonicParsing="false" text="Adicionar">
+                          <items>
+                            <MenuItem fx:id="menuNovoPet" mnemonicParsing="false" text="Novo Pet" />
+                              <MenuItem fx:id="menuNovoClientePet" mnemonicParsing="false" text="Novo Cliente/Pet" />
+                          </items>
+                        </Menu>
+                     </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/pets.PNG" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Contas a Pagar">
+                    <items>
+                      <MenuItem fx:id="menuListaContasPagar" mnemonicParsing="false" text="Lista de Contas" />
+                    </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/formulari.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Contas a Receber">
+                     <items>
+                        <MenuItem fx:id="menuListaContasReceber" mnemonicParsing="false" text="Lista de Contas" />
+                     </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/images.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Relatorios">
+                     <items>
+                        <MenuItem fx:id="menuRelatorioDre" mnemonicParsing="false" text="Relatorio DRE" />
+                     </items>
+                     <graphic>
+                        <ImageView fitHeight="34.0" fitWidth="34.0">
+                           <image>
+                              <Image url="@../icones/1055_128x128.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
