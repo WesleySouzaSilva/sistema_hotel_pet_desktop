@@ -2,6 +2,7 @@ package br.com.sistema.controll;
 
 import java.net.URL;
 
+import br.com.sistema.conexao.Conexao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,8 +13,9 @@ import javafx.stage.StageStyle;
 
 public class Principal extends Application {
 
-	public static void main(String[] args) {
+	public static Conexao conexao = new Conexao("nome-do-banco", "usuario-banco", "senha-banco");
 
+	public static void main(String[] args) {
 		launch(args);
 	}
 
@@ -33,4 +35,9 @@ public class Principal extends Application {
 		stage.setResizable(false);
 	}
 
+	public static Conexao getConexao() {
+		return conexao;
+	}
+	
+	
 }
