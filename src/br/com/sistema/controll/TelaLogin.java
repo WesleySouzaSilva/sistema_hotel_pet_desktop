@@ -98,7 +98,7 @@ public class TelaLogin {
 		conexao.fecharConexao();
 	}
 
-	public void acaoOK() throws IOException {
+	private void acaoOK() throws IOException {
 		String nome = txtUsuario.getText();
 		String senha = txtSenha.getText();
 		this.usuarioDAO = Principal.getUsuarioDAO();
@@ -133,7 +133,7 @@ public class TelaLogin {
 		conexao.fecharConexao();
 	}
 
-	public void acaoSair() {
+	private void acaoSair() {
 
 		Stage stage = (Stage) btnSair.getScene().getWindow();
 		stage.close();
@@ -147,7 +147,7 @@ public class TelaLogin {
 		return permissao;
 	}
 
-	public void textFieldInicial(TextField tf) {
+	private void textFieldInicial(TextField tf) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
