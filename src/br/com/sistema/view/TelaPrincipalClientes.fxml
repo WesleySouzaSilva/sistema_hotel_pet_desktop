@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="707.0" style="-fx-background-color: lightgray; -fx-background-radius: 30; -fx-border-color: black;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaPrincipalClientes">
+   <children>
+      <ImageView fitHeight="480.0" fitWidth="733.0" opacity="0.6" pickOnBounds="true">
+         <image>
+            <Image url="@../icones/icon/fundo.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtPesquisa" layoutX="185.0" layoutY="371.0" prefHeight="25.0" prefWidth="383.0" style="-fx-border-color: blue;" />
+      <Button fx:id="btnPesquisar" contentDisplay="RIGHT" layoutX="583.0" layoutY="372.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="54.0" style="-fx-background-color: PowderBlue;">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="32.0" nodeOrientation="RIGHT_TO_LEFT">
+               <image>
+                  <Image url="@../icones/icon/searching-for-a-businessman.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <TabPane layoutX="13.0" layoutY="64.0" prefHeight="288.0" prefWidth="683.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Lista">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="251.0" prefWidth="681.0" style="-fx-background-color: blue;">
+                     <children>
+                        <TableView fx:id="tbClientes" layoutX="3.0" layoutY="4.0" prefHeight="247.0" prefWidth="287.0">
+                          <columns>
+                            <TableColumn fx:id="clnNome" prefWidth="175.0" text="Nome" />
+                              <TableColumn fx:id="clnCpfCnpj" prefWidth="110.0" text="CPF/CNPJ" />
+                          </columns>
+                        </TableView>
+                        <TableView fx:id="tbTelefone" layoutX="289.0" layoutY="131.0" prefHeight="60.0" prefWidth="393.0">
+                          <columns>
+                            <TableColumn fx:id="clnCelular" prefWidth="75.0" text="Celular" />
+                            <TableColumn fx:id="clnComercial" prefWidth="75.0" text="Comercial" />
+                              <TableColumn fx:id="clnResidencial" prefWidth="75.0" text="Residencial" />
+                              <TableColumn fx:id="clnWhatsapp" prefWidth="75.0" text="Whatsapp" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView fx:id="tbEmail" layoutX="289.0" layoutY="191.0" prefHeight="60.0" prefWidth="393.0">
+                          <columns>
+                            <TableColumn fx:id="clnEmail" prefWidth="75.0" text="Email" />
+                            <TableColumn fx:id="clnEmailNFS" prefWidth="183.0" text="Email Nota Fiscal" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView fx:id="tbEndereco2" layoutX="290.0" layoutY="72.0" prefHeight="60.0" prefWidth="391.0">
+                           <columns>
+                              <TableColumn fx:id="clnCep" prefWidth="93.0" text="Cep" />
+                              <TableColumn fx:id="clnCidade" prefWidth="190.0" text="Cidade" />
+                              <TableColumn fx:id="clnEstado" prefWidth="106.0" text="Estado" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="tbEndereco" layoutX="290.0" layoutY="4.0" prefHeight="68.0" prefWidth="391.0">
+                          <columns>
+                            <TableColumn fx:id="clnRua" prefWidth="189.0" text="Rua" />
+                            <TableColumn fx:id="clnBairro" prefWidth="134.0" text="Bairro" />
+                              <TableColumn fx:id="clnNumero" prefWidth="63.0" text="Numero" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Detalhes">
+               <content>
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab text="Dados Pessoais">
+                           <content>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;">
+                                 <children>
+                                    <AnchorPane layoutX="4.0" layoutY="3.0" prefHeight="218.0" prefWidth="675.0" style="-fx-background-color: lightgray;">
+                                       <children>
+                                          <GridPane layoutX="14.0" layoutY="19.0" prefHeight="180.0" prefWidth="658.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="321.0" minWidth="10.0" prefWidth="72.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="586.0" minWidth="10.0" prefWidth="586.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Nome :" />
+                                                <Label text="Cpf/Cnpj :" GridPane.rowIndex="1" />
+                                                <Label text="RG:" GridPane.rowIndex="2" />
+                                                <Label text="Data Nasc. :" GridPane.rowIndex="3" />
+                                                <Label text="Sexo :" GridPane.rowIndex="4" />
+                                                <Label fx:id="lblNome" prefHeight="17.0" prefWidth="583.0" GridPane.columnIndex="1" />
+                                                <Label fx:id="lblCpfCnpj" prefHeight="17.0" prefWidth="586.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblRg" prefHeight="17.0" prefWidth="588.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblData" prefHeight="17.0" prefWidth="585.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblSexo" prefHeight="17.0" prefWidth="592.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                      </Tab>
+                      <Tab text="Endereço">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: blue;">
+                                 <children>
+                                    <AnchorPane layoutX="2.0" layoutY="3.0" prefHeight="235.0" prefWidth="677.0" style="-fx-background-color: lightgray;">
+                                       <children>
+                                          <GridPane layoutX="14.0" layoutY="7.0" prefHeight="180.0" prefWidth="299.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="95.0" minWidth="0.0" prefWidth="0.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="238.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Endereço :" />
+                                                <Label text="Numero :" GridPane.rowIndex="1" />
+                                                <Label text="Bairro :" GridPane.rowIndex="2" />
+                                                <Label text="Cep :" GridPane.rowIndex="3" />
+                                                <Label text="Cidade :" GridPane.rowIndex="4" />
+                                                <Label text="Estado :" GridPane.rowIndex="5" />
+                                                <Label fx:id="lblRua" prefHeight="17.0" prefWidth="243.0" GridPane.columnIndex="1" />
+                                                <Label fx:id="lblNumero" prefHeight="17.0" prefWidth="239.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblBairro" prefHeight="17.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblCep" prefHeight="17.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblCidade" prefHeight="17.0" prefWidth="243.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <Label fx:id="lblEstado" prefHeight="17.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                             </children>
+                                          </GridPane>
+                                          <GridPane layoutX="335.0" layoutY="8.0" prefHeight="178.0" prefWidth="339.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="164.0" minWidth="10.0" prefWidth="86.0" />
+                                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="253.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Tel. Comercial :" />
+                                                <Label text="tel. Celular :" GridPane.rowIndex="1" />
+                                                <Label text="tel. Residencial :" GridPane.rowIndex="2" />
+                                                <Label text="tel. Whatsapp :" GridPane.rowIndex="3" />
+                                                <Label text="Email :" GridPane.rowIndex="4" />
+                                                <Label text="Email NFS :" GridPane.rowIndex="5" />
+                                                <Label fx:id="lblTelComercial" prefHeight="17.0" prefWidth="257.0" GridPane.columnIndex="1" />
+                                                <Label fx:id="lblTelCelular" prefHeight="17.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <Label fx:id="lblTelResidencial" prefHeight="17.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                <Label fx:id="lblTelWhatsapp" prefHeight="17.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <Label fx:id="lblEmail" prefHeight="17.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <Label fx:id="lblEmailNfs" prefHeight="17.0" prefWidth="262.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </content></Tab>
+        </tabs>
+      </TabPane>
+      <MenuButton layoutX="14.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="112.0" text="Cadastro">
+        <items>
+          <MenuItem fx:id="menuCadastroPF" mnemonicParsing="false" text="Pessoa Fisica" />
+          <MenuItem fx:id="menuCadastroPJ" mnemonicParsing="false" text="Pessoa Juridica" />
+        </items>
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="22.0">
+               <image>
+                  <Image url="@../icones/7837_64x64.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </MenuButton>
+      <ComboBox fx:id="cmbBusca" layoutX="70.0" layoutY="372.0" prefHeight="25.0" prefWidth="112.0" promptText="SELECIONE" />
+      <Label layoutX="9.0" layoutY="375.0" prefHeight="18.0" prefWidth="64.0" text="Buscar :">
+         <font>
+            <Font name="Microsoft Sans Serif" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnEditarCliente" layoutX="157.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="70.0" text="Editar">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="19.0">
+               <image>
+                  <Image url="@../icones/icon/lapis.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btnExcluir" layoutX="283.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="81.0" text="Excluir">
+         <graphic>
+            <ImageView fitHeight="21.0" fitWidth="27.0">
+               <image>
+                  <Image url="@../icones/icon/icon.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="458.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaCadastroClientesPJ">
+	<children>
+      <ImageView fitHeight="458.0" fitWidth="650.0" opacity="0.6" pickOnBounds="true">
+         <image>
+            <Image url="@../icones/icon/fundo.png" />
+         </image>
+      </ImageView>
+		<Label layoutX="14.0" layoutY="6.0" prefHeight="28.0" prefWidth="376.0" text="Cadastro de Clientes Pessoa Jurídica">
+			<font>
+				<Font name="MS Reference Sans Serif" size="19.0" />
+			</font>
+		</Label>
+		<SplitPane dividerPositions="0.24742268041237114, 0.615979381443299" layoutX="9.0" layoutY="28.0" orientation="VERTICAL" prefHeight="390.0" prefWidth="624.0">
+			<items>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="90.0" prefWidth="622.0" style="-fx-background-color: ffffff;">
+					<children>
+						<AnchorPane layoutX="1.0" layoutY="1.0" minHeight="0.0" minWidth="0.0" prefHeight="13.0" prefWidth="631.0">
+                     <children>
+                        <Label layoutY="3.0" prefHeight="20.0" prefWidth="159.0" text="Dados da Empresa">
+                           <font>
+                              <Font name="MS Reference Sans Serif" size="16.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+						<Label layoutX="16.0" layoutY="32.0" text="Nome :" />
+						<TextField fx:id="txtNome" layoutX="60.0" layoutY="28.0" prefHeight="25.0" prefWidth="542.0" />
+						<TextField fx:id="txtCnpj" layoutX="60.0" layoutY="61.0" prefHeight="25.0" prefWidth="179.0" />
+						<Label layoutX="18.0" layoutY="65.0" text="CNPJ :" />
+					</children>
+				</AnchorPane>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="98.0" prefWidth="622.0" style="-fx-background-color: ffffff;">
+					<children>
+						<Label layoutX="14.0" layoutY="48.0" text="Endereço :" />
+						<TextField fx:id="txtRua" layoutX="77.0" layoutY="44.0" prefHeight="25.0" prefWidth="201.0" />
+						<Label layoutX="235.0" layoutY="92.0" text="Cidade :" />
+						<Label layoutX="511.0" layoutY="48.0" text="Numero :" />
+						<TextField fx:id="txtNumero" layoutX="562.0" layoutY="44.0" prefHeight="25.0" prefWidth="56.0" />
+						<Label layoutX="14.0" layoutY="92.0" text="Estado :" />
+						<Label layoutX="292.0" layoutY="48.0" text="Bairro :" />
+						<TextField fx:id="txtBairro" layoutX="349.0" layoutY="44.0" />
+						<TextField fx:id="txtCep" layoutX="508.0" layoutY="88.0" prefHeight="25.0" prefWidth="100.0" />
+						<Label layoutX="474.0" layoutY="92.0" text="CEP :" />
+                  <ComboBox fx:id="cmbUf" layoutX="67.0" layoutY="88.0" prefHeight="25.0" prefWidth="149.0" />
+                  <ComboBox fx:id="cmbCidade" layoutX="285.0" layoutY="88.0" prefHeight="25.0" prefWidth="165.0" />
+                  <Label layoutX="14.0" layoutY="6.0" prefHeight="19.0" prefWidth="79.0">
+                     <font>
+                        <Font name="Times New Roman" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="3.0" layoutY="6.0" prefHeight="20.0" prefWidth="159.0" text="Endereço:">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="16.0" />
+                     </font>
+                  </Label>
+					</children>
+				</AnchorPane>
+				<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="622.0" style="-fx-background-color: ffffff;">
+					<children>
+						<GridPane layoutX="14.0" layoutY="23.0">
+							<columnConstraints>
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+								<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+							</columnConstraints>
+							<rowConstraints>
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+								<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+							</rowConstraints>
+							<children>
+								<Label text="Comercial :" GridPane.halignment="RIGHT" />
+								<Label text="Residencial :" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+								<Label text="Celular :" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+								<Label text="Whatsapp :" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+								<TextField fx:id="txtTelComercial" GridPane.columnIndex="1" />
+								<TextField fx:id="txtTelResidencial" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+								<TextField fx:id="txtTelCelular" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+								<TextField fx:id="txtTelWhatsapp" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+							</children>
+						</GridPane>
+						<TextField fx:id="txtEmail" layoutX="369.0" layoutY="31.0" prefHeight="25.0" prefWidth="246.0" />
+						<Label layoutX="324.0" layoutY="35.0" text="Email :" />
+						<TextField fx:id="txtEmailNFS" layoutX="369.0" layoutY="60.0" prefHeight="25.0" prefWidth="246.0" />
+                  <Label layoutX="3.0" layoutY="4.0" prefHeight="20.0" prefWidth="159.0" text="Telefone">
+                     <font>
+                        <Font name="MS Reference Sans Serif" size="16.0" />
+                     </font>
+                  </Label>
+					</children>
+				</AnchorPane>
+			</items>
+		</SplitPane>
+		<Button fx:id="btnCancelar" layoutX="377.0" layoutY="419.0" mnemonicParsing="false" onAction="#acaoCancelar" text="Cancelar">
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="19.0">
+               <image>
+                  <Image url="@../icones/icon/multiplicar.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+		<Button fx:id="btnConfirmar" layoutX="202.0" layoutY="419.0" mnemonicParsing="false" onAction="#acaoConfirmar" prefHeight="25.0" prefWidth="85.0" text="Salvar">
+         <graphic>
+            <ImageView fitHeight="15.0" fitWidth="20.0">
+               <image>
+                  <Image url="@../icones/icon/disquete.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+	</children>
+</AnchorPane>
