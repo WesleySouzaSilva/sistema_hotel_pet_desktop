@@ -138,22 +138,21 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 		return lista;
 	}
 
-	public boolean logar(Conexao conexao, String usuario, String senha) {
+	public boolean logar(String usuario, String senha) {
 		boolean logado = false;
-		String sql = "SELECT COUNT(*) AS quant FROM usuario WHERE upper(nome)=? AND senha=?";
+		String sql = "SELECT * FROM usuario WHERE nome = ? AND senha = ?";
 
 		try {
-			PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			cmd.setString(1, usuario);
 			cmd.setString(2, senha);
 			ResultSet rs = cmd.executeQuery();
 
-			if (rs.next() && rs.getInt("quant") > 0) {
+			if (rs.next()) {
 				logado = true;
 			}
 
 			cmd.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
