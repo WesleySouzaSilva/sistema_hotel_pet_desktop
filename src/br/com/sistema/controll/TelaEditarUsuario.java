@@ -1,7 +1,5 @@
 package br.com.sistema.controll;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -13,18 +11,18 @@ import br.com.sistema.model.dao.UsuarioDAO;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class TelaNovoUsuario {
+public class TelaEditarUsuario {
 
 	@FXML
 	private TextField txtNome;
@@ -44,9 +42,11 @@ public class TelaNovoUsuario {
 	private Conexao conexao = new Conexao(Principal.getNomeBanco(), Principal.getUsuarioBanco(),
 			Principal.getSenhaBanco());
 	private UsuarioDAO usuarioDAO = null;
+	TelaPrincipalUsuario telaPrincipalUsuario = new TelaPrincipalUsuario();
 
 	public void initialize() {
 		txtNome.textProperty().addListener(new ListenerParaMaiusculas(txtNome));
+		listaDados();
 		tipoUsuario();
 
 		btnConfirmar.setOnAction(e -> {
@@ -106,6 +106,16 @@ public class TelaNovoUsuario {
 		});
 	}
 
+	private void listaDados() {
+		this.usuarioDAO = Principal.getUsuarioDAO();
+		for (Usuario u : usuarioDAO.buscarId(telaPrincipalUsuario.idUsuario())) {
+			txtNome.setText(u.getNome());
+			txtSenha.setText(u.getSenha());
+			cmbPermissao.setValue(u.getPermissao());
+		}
+		conexao.fecharConexao();
+	}
+
 	private void salvar() throws SQLException {
 		String nome = null, senha = null, permissao = null;
 		if (txtNome.getText().isEmpty() || txtNome.getText() == null) {
@@ -115,17 +125,8 @@ public class TelaNovoUsuario {
 			txtNome.requestFocus();
 			return;
 		} else {
-			if (verificaUsuarioCadastrado(txtNome.getText())) {
-				ValidationFields.checkEmptyFields(txtNome);
-				Alert dlg = new Alert(AlertType.INFORMATION);
-				dlg.setContentText("Usuario " + txtNome.getText() + " Já cadastrado");
-				dlg.showAndWait();
-				txtNome.requestFocus();
-				return;
-			} else {
-				nome = txtNome.getText();
+			nome = txtNome.getText();
 
-			}
 		}
 
 		if (txtSenha.getText().isEmpty() || txtSenha.getText() == null) {
@@ -151,19 +152,19 @@ public class TelaNovoUsuario {
 			permissao = cmbPermissao.getValue().toString();
 		}
 
-		Usuario usuario = new Usuario(null, nome, senha, permissao);
+		Usuario usuario = new Usuario(telaPrincipalUsuario.idUsuario(), nome, senha, permissao);
 
 		ButtonType sim = new ButtonType("SIM", ButtonBar.ButtonData.YES);
 		ButtonType nao = new ButtonType("NÃO", ButtonBar.ButtonData.NO);
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente cadastrar os dados do USUARIO ?", sim, nao);
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente atualizar os dados do USUARIO ?", sim, nao);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().equals(sim)) {
 			this.usuarioDAO = Principal.getUsuarioDAO();
-			boolean sucesso = usuarioDAO.inserir(usuario);
+			boolean sucesso = usuarioDAO.atualizar(usuario);
 			conexao.fecharConexao();
 			if (sucesso) {
 				Alert dlg = new Alert(AlertType.CONFIRMATION);
-				dlg.setContentText("Dados do USUARIO salvo com sucesso!");
+				dlg.setContentText("Dados do USUARIO atualizado com sucesso!");
 				dlg.showAndWait();
 				voltarTela();
 			}
@@ -201,22 +202,4 @@ public class TelaNovoUsuario {
 		stage.close();
 	}
 
-	private boolean verificaUsuarioCadastrado(String campo) throws SQLException {
-		conexao = new Conexao(Principal.getNomeBanco(), Principal.getUsuarioBanco(), Principal.getSenhaBanco());
-		boolean result = false;
-
-		String sql = "SELECT * FROM usuario WHERE nome = ? ";
-
-		PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
-		cmd.setString(1, campo);
-		ResultSet rs = cmd.executeQuery();
-		if (rs.next()) {
-			result = true;
-
-		}
-
-		conexao.fecharConexao();
-		return result;
-
-	}
 }
