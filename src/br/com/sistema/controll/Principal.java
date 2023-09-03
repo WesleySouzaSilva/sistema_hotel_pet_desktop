@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import br.com.sistema.conexao.Conexao;
+import br.com.sistema.model.dao.PessoaDAO;
 import br.com.sistema.model.dao.UsuarioDAO;
 import br.com.sistema.validadores.LeitorXml;
 import javafx.application.Application;
@@ -29,11 +30,13 @@ public class Principal extends Application {
 	private static String senhaBanco = null;
 	public static Conexao conexao = null;
 	public static UsuarioDAO usuarioDAO = null;
+	public static PessoaDAO pessoaDAO = null;
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		carregaDados("/br/com/sistema/validadores/acesso_sistema.xml", true);
 		conexao = new Conexao(nomeBanco, usuarioBanco, senhaBanco);
 		usuarioDAO = new UsuarioDAO(conexao);
+		pessoaDAO = new PessoaDAO(conexao);
 		launch(args);
 		conexao.fecharConexao();
 	}
@@ -66,7 +69,8 @@ public class Principal extends Application {
 
 				for (List<String> cliente : lista) {
 
-					for (@SuppressWarnings("unused") String valor : cliente) {
+					for (@SuppressWarnings("unused")
+					String valor : cliente) {
 						nomeBanco = cliente.get(0);
 						usuarioBanco = cliente.get(1);
 						senhaBanco = cliente.get(2);
@@ -92,5 +96,9 @@ public class Principal extends Application {
 
 	public static String getUsuarioBanco() {
 		return usuarioBanco;
+	}
+
+	public static PessoaDAO getPessoaDAO() {
+		return pessoaDAO;
 	}
 }
