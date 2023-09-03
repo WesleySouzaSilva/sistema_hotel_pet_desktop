@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import br.com.sistema.conexao.Conexao;
+import br.com.sistema.model.dao.EnderecoDAO;
 import br.com.sistema.model.dao.PessoaDAO;
 import br.com.sistema.model.dao.UsuarioDAO;
 import br.com.sistema.validadores.LeitorXml;
@@ -31,12 +32,14 @@ public class Principal extends Application {
 	public static Conexao conexao = null;
 	public static UsuarioDAO usuarioDAO = null;
 	public static PessoaDAO pessoaDAO = null;
+	public static EnderecoDAO enderecoDAO = null;
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		carregaDados("/br/com/sistema/validadores/acesso_sistema.xml", true);
 		conexao = new Conexao(nomeBanco, usuarioBanco, senhaBanco);
 		usuarioDAO = new UsuarioDAO(conexao);
 		pessoaDAO = new PessoaDAO(conexao);
+		enderecoDAO = new EnderecoDAO(conexao);
 		launch(args);
 		conexao.fecharConexao();
 	}
@@ -100,5 +103,9 @@ public class Principal extends Application {
 
 	public static PessoaDAO getPessoaDAO() {
 		return pessoaDAO;
+	}
+
+	public static EnderecoDAO getEnderecoDAO() {
+		return enderecoDAO;
 	}
 }
