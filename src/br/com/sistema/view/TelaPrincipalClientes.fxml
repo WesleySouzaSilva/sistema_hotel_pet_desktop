@@ -179,13 +179,11 @@
                                                 <Label text="tel. Residencial :" GridPane.rowIndex="2" />
                                                 <Label text="tel. Whatsapp :" GridPane.rowIndex="3" />
                                                 <Label text="Email :" GridPane.rowIndex="4" />
-                                                <Label text="Email NFS :" GridPane.rowIndex="5" />
                                                 <Label fx:id="lblTelComercial" prefHeight="17.0" prefWidth="257.0" GridPane.columnIndex="1" />
                                                 <Label fx:id="lblTelCelular" prefHeight="17.0" prefWidth="263.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                                 <Label fx:id="lblTelResidencial" prefHeight="17.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                                 <Label fx:id="lblTelWhatsapp" prefHeight="17.0" prefWidth="264.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                                 <Label fx:id="lblEmail" prefHeight="17.0" prefWidth="266.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                                <Label fx:id="lblEmailNfs" prefHeight="17.0" prefWidth="262.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                              </children>
                                           </GridPane>
                                        </children>

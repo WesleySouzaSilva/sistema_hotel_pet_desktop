@@ -90,6 +90,35 @@ public class EnderecoDAO extends AbstractGenericDAO<Endereco> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Endereco buscar(Integer id) {
+		String sql = "SELECT e.id, e.rua, e.bairro, e.numero, e.cidade, e.estado, e.cep, p.id, p.endereco_id FROM Endereco AS e, Pessoa as p WHERE p.id = '"
+				+ id + "' AND e.id = p.endereco_id";
+		Endereco endereco = null;
+		try {
+			Statement cmd = dbConnection.createStatement();
+			ResultSet rs = cmd.executeQuery(sql);
+			// enquanto houver um próximo registro, leia-os
+			while (rs.next()) {
+				int ids = rs.getInt("e.id");
+				String rua = rs.getString("e.rua");
+				String bairro = rs.getString("e.bairro");
+				String numero = rs.getString("e.numero");
+				String cidade = rs.getString("e.cidade");
+				String estado = rs.getString("e.estado");
+				String cep = rs.getString("e.cep");
+
+				endereco = new Endereco(ids, rua, bairro, numero, cidade, estado, cep);
+
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return endereco;
+	}
 
 	public Integer getEndereco(String id) {
 		String sql = "SELECT * FROM endereco WHERE id = " + id + "";

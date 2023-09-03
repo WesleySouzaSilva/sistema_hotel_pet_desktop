@@ -80,6 +80,29 @@ public class EmailDAO extends AbstractGenericDAO<Email> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Email buscar(Integer id) {
+		String sql = "SELECT e.id, e.email, e.id, p.id, p.email_id FROM Email as e, Pessoa as p WHERE p.id = '" + id
+				+ "' AND e.id = p.email_id";
+		Email emails = null;
+		try {
+			Statement cmd = dbConnection.createStatement();
+			ResultSet rs = cmd.executeQuery(sql);
+			// enquanto houver um próximo registro, leia-os
+			while (rs.next()) {
+				int ids = rs.getInt("e.id");
+				String email = rs.getString("e.email");
+
+				emails = new Email(ids, email, email);
+
+			}
+			rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return emails;
+	}
 
 	public Integer getEmail(String id) {
 		String sql = "SELECT * FROM email WHERE id = " + id + "";

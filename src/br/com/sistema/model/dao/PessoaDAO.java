@@ -9,7 +9,10 @@ import java.util.List;
 
 import br.com.sistema.conexao.AbstractGenericDAO;
 import br.com.sistema.conexao.Conexao;
+import br.com.sistema.model.Email;
+import br.com.sistema.model.Endereco;
 import br.com.sistema.model.Pessoa;
+import br.com.sistema.model.Telefone;
 
 public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 
@@ -119,6 +122,59 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public List<Pessoa> buscarDadosPorId(Integer id) {
+		String sql = "SELECT p.id, p.nome, p.cpf_cnpj, p.rg, DATE_FORMAT(p.data_nascimento, '%d/%m/%Y'), p.sexo, p.telefone_id, p.endereco_id, p.email_id, p.tipo, p.ativo, e.rua, e.bairro, e.numero, e.cidade, e.estado, e.cep, t.tel_comercial, t.tel_celular, t.tel_residencial, t.tel_whatsapp, m.email FROM pessoa AS p INNER JOIN endereco e INNER JOIN telefone t INNER JOIN email m ON e.id = p.endereco_id AND t.id = p.telefone_id AND m.id = p.email_id WHERE p.id ='"
+				+ id + "'";
+		Endereco endereco = new Endereco();
+		Telefone telefone = new Telefone();
+		Email email = new Email();
+		ArrayList<Pessoa> lista = new ArrayList<>();
+
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			// enquanto houver um próximo registro, leia-os
+			while (rs.next()) {
+				int ids = rs.getInt("p.id");
+				String nome = rs.getString("p.nome");
+				String CpfCnpj = rs.getString("p.cpf_cnpj");
+				String rg = rs.getString("p.rg");
+				String dataNascimento = rs.getString("DATE_FORMAT(p.data_nascimento, '%d/%m/%Y')");
+				String sexo = rs.getString("p.sexo");
+				String cidade = rs.getString("e.cidade");
+				String bairro = rs.getString("e.bairro");
+				String cep = rs.getString("e.cep");
+				String numero = rs.getString("e.numero");
+				String rua = rs.getString("e.rua");
+				String estado = rs.getString("e.estado");
+
+				String telCelular = rs.getString("t.tel_celular");
+				String telComercial = rs.getString("t.tel_comercial");
+				String telResidencial = rs.getString("t.tel_residencial");
+				String telWhatsapp = rs.getString("t.tel_whatsapp");
+
+				String emails = rs.getString("m.email");
+				
+				String tipo = rs.getString("p.tipo");
+				String ativo = rs.getString("p.ativo");
+
+				endereco = new Endereco(null, rua, bairro, numero, cidade, estado, cep);
+				telefone = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
+				email = new Email(null, emails, emails);
+
+				Pessoa pesso = new Pessoa(ids, nome, CpfCnpj, rg, sexo, null, endereco, telefone, email, tipo, ativo, dataNascimento);
+				lista.add(pesso);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
 
 	public List<Pessoa> buscarCpfCnpj(String campo) {
 		String sql = "SELECT * FROM pessoa WHERE cpf_cnpj = '" + campo + "'";
@@ -134,6 +190,33 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
 				String cpfcnpj = rs.getString("cpf_cnpj)");
+
+				pessoa = new Pessoa(id, nome, cpfcnpj, null, null, null, null, null, null, null, null, null);
+
+				lista.add(pessoa);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+	
+	public List<Pessoa> buscarNome(String campo) {
+		String sql = "SELECT * FROM pessoa WHERE nome like '" + campo + "%' AND ativo = 'SIM' ORDER BY nome";
+		Pessoa pessoa = null;
+		ArrayList<Pessoa> lista = new ArrayList<>();
+
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			// enquanto houver um próximo registro, leia-os
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String nome = rs.getString("nome");
+				String cpfcnpj = rs.getString("cpf_cnpj");
 
 				pessoa = new Pessoa(id, nome, cpfcnpj, null, null, null, null, null, null, null, null, null);
 

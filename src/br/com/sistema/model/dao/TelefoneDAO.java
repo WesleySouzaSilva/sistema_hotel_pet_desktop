@@ -87,6 +87,33 @@ public class TelefoneDAO extends AbstractGenericDAO<Telefone> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public Telefone buscar(Integer id) {
+		String sql = "SELECT t.id, t.tel_celular, t.tel_comercial, t.tel_residencial, t.tel_whatsapp, p.id, p.telefone_id FROM Telefone AS t, Pessoa as p WHERE p.id = '"
+				+ id + "' AND t.id = p.telefone_id";
+		Telefone telefone = null;
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+
+			if (rs.next()) {
+				String telCelular = rs.getString("t.tel_celular");
+				String telComercial = rs.getString("t.tel_comercial");
+				String telResidencial = rs.getString("t.tel_residencial");
+				String telWhatsapp = rs.getString("t.tel_whatsapp");
+
+				telefone = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
+			}
+
+			cmd.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return telefone;
+	}
 
 	public Integer getTelefone(String id) {
 		String sql = "SELECT * FROM email WHERE id = " + id + "";
