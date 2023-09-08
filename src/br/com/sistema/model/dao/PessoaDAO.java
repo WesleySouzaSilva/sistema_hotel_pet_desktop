@@ -51,6 +51,36 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 			return false;
 		}
 	}
+	
+	public boolean inserirPJ(Pessoa pojo) {
+		String sql = "INSERT INTO pessoa(nome, cpf_cnpj, rg, data_nascimento, sexo, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+
+			cmd.setString(1, pojo.getNome());
+			cmd.setString(2, pojo.getCpfcnpj());
+			cmd.setString(3, pojo.getRg());
+			cmd.setDate(4, (Date) pojo.getDataNascimento());
+			cmd.setString(5, pojo.getSexo());
+			cmd.setInt(6, pojo.getEndereco().getId());
+			cmd.setInt(7, pojo.getEmail().getId());
+			cmd.setInt(8, pojo.getTelefone().getId());
+			cmd.setString(9, pojo.getAtivo());
+			cmd.setString(10, pojo.getTipo());
+
+			int retorno = cmd.executeUpdate();
+			cmd.close();
+			if (retorno > 0) {
+				// salva o id gerado pelo banco no próprio objeto
+				pojo.setId(ultimoID("pessoa"));
+			}
+
+			return retorno > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	@Override
 	public boolean apagar(Pessoa pojo) {

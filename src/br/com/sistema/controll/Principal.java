@@ -11,8 +11,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import br.com.sistema.conexao.Conexao;
+import br.com.sistema.model.dao.CidadeDAO;
 import br.com.sistema.model.dao.EmailDAO;
 import br.com.sistema.model.dao.EnderecoDAO;
+import br.com.sistema.model.dao.EstadoDAO;
 import br.com.sistema.model.dao.PessoaDAO;
 import br.com.sistema.model.dao.TelefoneDAO;
 import br.com.sistema.model.dao.UsuarioDAO;
@@ -37,6 +39,8 @@ public class Principal extends Application {
 	public static EnderecoDAO enderecoDAO = null;
 	public static EmailDAO emailDAO = null;
 	public static TelefoneDAO telefoneDAO = null;
+	public static EstadoDAO estadoDAO = null;
+	public static CidadeDAO cidadeDAO = null;
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		carregaDados("/br/com/sistema/validadores/acesso_sistema.xml", true);
@@ -46,6 +50,8 @@ public class Principal extends Application {
 		enderecoDAO = new EnderecoDAO(conexao);
 		emailDAO = new EmailDAO(conexao);
 		telefoneDAO = new TelefoneDAO(conexao);
+		estadoDAO = new EstadoDAO(conexao);
+		cidadeDAO = new CidadeDAO(conexao);
 		launch(args);
 		conexao.fecharConexao();
 	}
@@ -121,5 +127,13 @@ public class Principal extends Application {
 
 	public static TelefoneDAO getTelefoneDAO() {
 		return telefoneDAO;
+	}
+
+	public static CidadeDAO getCidadeDAO() {
+		return cidadeDAO;
+	}
+
+	public static EstadoDAO getEstadoDAO() {
+		return estadoDAO;
 	}
 }
