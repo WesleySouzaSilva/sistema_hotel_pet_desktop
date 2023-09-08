@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="458.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaCadastroClientesPJ">
+<AnchorPane prefHeight="458.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.sistema.controll.TelaCadastroClientesPJ">
 	<children>
       <ImageView fitHeight="458.0" fitWidth="650.0" opacity="0.6" pickOnBounds="true">
          <image>
@@ -95,7 +95,6 @@
 						</GridPane>
 						<TextField fx:id="txtEmail" layoutX="369.0" layoutY="31.0" prefHeight="25.0" prefWidth="246.0" />
 						<Label layoutX="324.0" layoutY="35.0" text="Email :" />
-						<TextField fx:id="txtEmailNFS" layoutX="369.0" layoutY="60.0" prefHeight="25.0" prefWidth="246.0" />
                   <Label layoutX="3.0" layoutY="4.0" prefHeight="20.0" prefWidth="159.0" text="Telefone">
                      <font>
                         <Font name="MS Reference Sans Serif" size="16.0" />
@@ -105,7 +104,7 @@
 				</AnchorPane>
 			</items>
 		</SplitPane>
-		<Button fx:id="btnCancelar" layoutX="377.0" layoutY="419.0" mnemonicParsing="false" onAction="#acaoCancelar" text="Cancelar">
+		<Button fx:id="btnSair" layoutX="377.0" layoutY="419.0" mnemonicParsing="false" text="Cancelar">
          <graphic>
             <ImageView fitHeight="16.0" fitWidth="19.0">
                <image>
@@ -113,7 +112,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-		<Button fx:id="btnConfirmar" layoutX="202.0" layoutY="419.0" mnemonicParsing="false" onAction="#acaoConfirmar" prefHeight="25.0" prefWidth="85.0" text="Salvar">
+		<Button fx:id="btnSalvar" layoutX="202.0" layoutY="419.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="85.0" text="Salvar">
          <graphic>
             <ImageView fitHeight="15.0" fitWidth="20.0">
                <image>

@@ -106,7 +106,6 @@
                   </GridPane>
                   <TextField fx:id="txtEmail" layoutX="369.0" layoutY="27.0" prefHeight="25.0" prefWidth="246.0" />
                   <Label layoutX="324.0" layoutY="31.0" text="Email  :" />
-                  <TextField fx:id="txtEmailNFS" layoutX="369.0" layoutY="60.0" prefHeight="25.0" prefWidth="246.0" />
                </children></AnchorPane>
         </items>
       </SplitPane>

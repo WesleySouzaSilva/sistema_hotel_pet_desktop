@@ -3,10 +3,6 @@ package br.com.sistema.controll;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 import br.com.sistema.conexao.Conexao;
 import br.com.sistema.filtros.FiltroEmail;
@@ -14,7 +10,7 @@ import br.com.sistema.filtros.FiltroFone;
 import br.com.sistema.filtros.FiltroInteiro;
 import br.com.sistema.filtros.FiltroLetras;
 import br.com.sistema.listeners.ListenerFormatarCep;
-import br.com.sistema.listeners.ListenerFormatarCpf;
+import br.com.sistema.listeners.ListenerFormatarCnpj;
 import br.com.sistema.listeners.ListenerFormatarFone;
 import br.com.sistema.listeners.ListenerParaMaiusculas;
 import br.com.sistema.listeners.ListenerParaMinusculas;
@@ -44,22 +40,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class TelaCadastroClientesPF {
+public class TelaCadastroClientesPJ {
 
 	@FXML
 	private TextField txtNome;
 
 	@FXML
-	private TextField txtCpf;
-
-	@FXML
-	private TextField txtRg;
-
-	@FXML
-	private ComboBox<String> cmbSexo;
-
-	@FXML
-	private TextField txtDataNascimento;
+	private TextField txtCnpj;
 
 	@FXML
 	private TextField txtRua;
@@ -106,21 +93,17 @@ public class TelaCadastroClientesPF {
 	private TelefoneDAO telefoneDAO = null;
 	private EmailDAO emailDAO = null;
 	private PessoaDAO pessoaDAO = null;
-	private Date dataSql;
-	private Date dataHoje;
-	private Date dataMin;
 	private Conexao conexao = new Conexao(Principal.getNomeBanco(), Principal.getUsuarioBanco(),
 			Principal.getSenhaBanco());
 
 	public void initialize() {
-
-		carregaComboBoxSexo();
+		
 		carregaComboBoxEstados();
 
 		cmbUf.setOnAction(e -> {
 			comboBoxCidadePorEstado();
 		});
-		
+
 		btnSalvar.setOnAction(e -> {
 			try {
 				acaoSalvar();
@@ -129,13 +112,13 @@ public class TelaCadastroClientesPF {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		btnSair.setOnAction(e -> {
 			acaoSairTela();
 		});
 
-		txtCpf.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(11));
-		txtCpf.focusedProperty().addListener(new ListenerFormatarCpf(txtCpf));
+		txtCnpj.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(14));
+		txtCnpj.focusedProperty().addListener(new ListenerFormatarCnpj(txtCnpj));
 
 		txtNome.textProperty().addListener(new ListenerParaMaiusculas(txtNome));
 		txtNome.addEventFilter(KeyEvent.KEY_TYPED, new FiltroLetras());
@@ -146,9 +129,6 @@ public class TelaCadastroClientesPF {
 		txtCep.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(8));
 		txtCep.focusedProperty().addListener(new ListenerFormatarCep(txtCep));
 		txtNumero.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(9));
-		txtRg.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(9));
-
-		txtDataNascimento.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(8));
 
 		txtRua.textProperty().addListener(new ListenerParaMaiusculas(txtRua));
 		txtRua.addEventFilter(KeyEvent.KEY_TYPED, new FiltroLetras());
@@ -172,53 +152,14 @@ public class TelaCadastroClientesPF {
 			public void handle(KeyEvent event) {
 				// TODO Auto-generated method stub
 				if (event.getCode() == KeyCode.ENTER) {
-					txtCpf.requestFocus();
+					txtCnpj.requestFocus();
 					return;
 				}
 
 			}
 		});
 
-		txtCpf.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getCode() == KeyCode.ENTER) {
-					txtRg.requestFocus();
-					return;
-				}
-
-			}
-		});
-
-		txtRg.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getCode() == KeyCode.ENTER) {
-					txtDataNascimento.requestFocus();
-					return;
-				}
-
-			}
-		});
-
-		txtDataNascimento.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				// TODO Auto-generated method stub
-				if (event.getCode() == KeyCode.ENTER) {
-					cmbSexo.requestFocus();
-					return;
-				}
-
-			}
-		});
-
-		cmbSexo.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		txtCnpj.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -297,16 +238,13 @@ public class TelaCadastroClientesPF {
 		});
 	}
 
-
 	private void acaoSalvar() throws SQLException {
 
-		String nome = null, rg = null, sexo = null, rua = null, bairro = null, numero = null, cidade = null, cep = null,
-				uf = null, telCelular = null, telComercial = null, telResidencial = null, telWhatsapp = null,
-				emai = null;
+		String nome = null, rua = null, bairro = null, numero = null, cidade = null, cep = null, uf = null,
+				telCelular = null, telComercial = null, telResidencial = null, telWhatsapp = null, emai = null;
 
-		String cpf = null;
-		String cpfFormatado = null;
-		Date dataNascimento = null;
+		String cnpj = null;
+		String cnpjFormatado = null;
 
 		if (txtNome.getText().isEmpty()) {
 			ValidationFields.checkEmptyFields(txtNome);
@@ -321,94 +259,58 @@ public class TelaCadastroClientesPF {
 			nome = txtNome.getText();
 
 		}
-		if (txtCpf.getText().isEmpty()) {
-			cpf = new String("");
+		if (txtCnpj.getText().isEmpty()) {
+			ValidationFields.checkEmptyFields(txtCnpj);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Preencha o campo CNPJ!");
+			dlg.showAndWait();
+			txtCnpj.requestFocus();
+			return;
 		} else {
-			String cpfs = txtCpf.getText();
-			cpfFormatado = cpfs;
-
-			if (possuiCadastro(cpfFormatado)) {
-				ValidationFields.checkEmptyFields(txtCpf);
+			cnpj = txtCnpj.getText();
+			if (possuiCadastro(cnpj)) {
+				ValidationFields.checkEmptyFields(txtCnpj);
 				Alert dlg = new Alert(AlertType.INFORMATION);
-				dlg.setContentText("CPF " + txtCpf.getText() + " Já cadastrado");
+				dlg.setContentText("CNPJ " + txtCnpj.getText() + " Já cadastrado");
 				dlg.showAndWait();
-				txtCpf.requestFocus();
+				txtCnpj.requestFocus();
 				return;
 
 			}
-			cpf = cpfFormatado;
-			System.out.println("cpf :" + cpf);
-		}
-
-		if (txtRg.getText().isEmpty()) {
-
-			rg = txtRg.getText();
-
-		} else {
-			rg = txtRg.getText();
-
-		}
-		if (txtDataNascimento.getText().isEmpty()) {
-
-		} else {
-			Date dataAtual = new Date();
-			String data = txtDataNascimento.getText();
-
-			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-			String dataString = format.format(dataAtual);
-
-			try {
-				Date datas = format.parse(data);
-				Date dataF = format.parse(dataString);
-				String dataMinima = "01/01/1910";
-				Date dataM = format.parse(dataMinima);
-
-				dataMin = new java.sql.Date(dataM.getTime());
-				dataSql = new java.sql.Date(datas.getTime());
-				dataHoje = new java.sql.Date(dataF.getTime());
-				System.out.println("data hoje : " + dataHoje);
-				System.out.println("data sql :" + dataSql);
-				System.out.println("data Minima :" + dataMin);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-
-			if (dataSql.getTime() >= dataHoje.getTime() || dataSql.getTime() <= dataMin.getTime()) {
-				ValidationFields.checkEmptyFields(txtDataNascimento);
-				Alert dlg = new Alert(AlertType.ERROR);
-				dlg.setContentText("Data Nascimento inválida!!!");
-				dlg.showAndWait();
-				txtDataNascimento.requestFocus();
-				return;
-			} else {
-				dataNascimento = dataSql;
-				System.out.println("Data Nascimento:  " + dataNascimento);
-			}
-		}
-		if (cmbSexo.getValue() == null) {
-			sexo = new String("");
-		} else {
-
-			sexo = cmbSexo.getValue().toString();
+			cnpjFormatado = cnpj;
 		}
 
 		if (txtRua.getText().isEmpty()) {
-			rua = txtRua.getText();
+			ValidationFields.checkEmptyFields(txtRua);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Preencha o campo Rua!");
+			dlg.showAndWait();
+			txtRua.requestFocus();
+			return;
 
 		} else {
 
 			rua = txtRua.getText();
 		}
 		if (txtBairro.getText().isEmpty()) {
-
-			bairro = txtBairro.getText();
+			ValidationFields.checkEmptyFields(txtBairro);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Preencha o campo Bairro!");
+			dlg.showAndWait();
+			txtBairro.requestFocus();
+			return;
 		} else {
 
 			bairro = txtBairro.getText();
 		}
 
 		if (txtNumero.getText().isEmpty()) {
-			numero = txtNumero.getText();
+			ValidationFields.checkEmptyFields(txtNumero);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Preencha o campo Numero!");
+			dlg.showAndWait();
+			txtNumero.requestFocus();
+			return;
 
 		} else {
 
@@ -416,15 +318,24 @@ public class TelaCadastroClientesPF {
 		}
 
 		if (cmbUf.getValue() == null) {
-
-			uf = new String("");
+			ValidationFields.checkEmptyFields(cmbUf);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Selecione o campo Estado!");
+			dlg.showAndWait();
+			cmbUf.requestFocus();
+			return;
 		} else {
 
 			uf = cmbUf.getValue().toString();
 
 		}
 		if (cmbCidade.getValue() == null) {
-			cidade = new String("");
+			ValidationFields.checkEmptyFields(cmbCidade);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Selecione o campo Cidade!");
+			dlg.showAndWait();
+			cmbCidade.requestFocus();
+			return;
 		} else {
 
 			cidade = cmbCidade.getValue().toString();
@@ -432,7 +343,12 @@ public class TelaCadastroClientesPF {
 		}
 
 		if (txtCep.getText().isEmpty()) {
-			cep = txtCep.getText();
+			ValidationFields.checkEmptyFields(txtCep);
+			Alert dlg = new Alert(AlertType.ERROR);
+			dlg.setContentText("Preencha o campo Cep!");
+			dlg.showAndWait();
+			txtCep.requestFocus();
+			return;
 
 		} else {
 
@@ -461,11 +377,11 @@ public class TelaCadastroClientesPF {
 		}
 
 		String ativo = new String("SIM");
-		String tipo = new String("PF");
+		String tipo = new String("PJ");
 
 		ButtonType sim = new ButtonType("SIM", ButtonBar.ButtonData.YES);
 		ButtonType nao = new ButtonType("NÃO", ButtonBar.ButtonData.NO);
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente cadastrar os dados do NOVO CLIENTE PF ?", sim,
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente cadastrar os dados do NOVO CLIENTE PJ ?", sim,
 				nao);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().equals(sim)) {
@@ -493,11 +409,11 @@ public class TelaCadastroClientesPF {
 				conexao.fecharConexao();
 			}
 
-			Pessoa pessoa = new Pessoa(null, nome, cpf, rg, sexo, dataNascimento, enderecos, telefones, emails, tipo,
+			Pessoa pessoa = new Pessoa(null, nome, cnpjFormatado, null, null, null, enderecos, telefones, emails, tipo,
 					ativo, null);
 
 			this.pessoaDAO = Principal.getPessoaDAO();
-			boolean sucesso = pessoaDAO.inserir(pessoa);
+			boolean sucesso = pessoaDAO.inserirPJ(pessoa);
 			if (sucesso) {
 				Alert alerta = new Alert(AlertType.INFORMATION);
 				alerta.setHeaderText("Dados salvos com sucesso!");
@@ -524,18 +440,7 @@ public class TelaCadastroClientesPF {
 		}
 	}
 
-	private void carregaComboBoxSexo() {
-		ArrayList<String> listaSexo = new ArrayList<String>();
-		String feminino = new String("Feminino");
-		String masculino = new String("Masculino");
-
-		listaSexo.add(feminino);
-		listaSexo.add(masculino);
-
-		cmbSexo.getItems().addAll(listaSexo);
-
-	}
-
+	
 	private void carregaComboBoxEstados() {
 		this.estadoDAO = Principal.getEstadoDAO();
 		cmbUf.getItems().addAll(estadoDAO.listar());
@@ -563,7 +468,6 @@ public class TelaCadastroClientesPF {
 
 	}
 
-
 	private void voltarTela() {
 		Stage stage = (Stage) btnSair.getScene().getWindow();
 		stage.close();
@@ -584,16 +488,6 @@ public class TelaCadastroClientesPF {
 		}
 
 		return result;
-
-	}
-
-	@FXML
-	void acaoData() {
-		TextFieldFormatter tff = new TextFieldFormatter();
-		tff.setMask("##/##/####");
-		tff.setCaracteresValidos("0987654321");
-		tff.setTf(txtDataNascimento);
-		tff.formatter();
 
 	}
 }
