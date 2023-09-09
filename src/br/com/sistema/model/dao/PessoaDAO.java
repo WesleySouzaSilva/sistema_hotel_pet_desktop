@@ -51,7 +51,7 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 			return false;
 		}
 	}
-	
+
 	public boolean inserirPJ(Pessoa pojo) {
 		String sql = "INSERT INTO pessoa(nome, cpf_cnpj, rg, data_nascimento, sexo, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
@@ -120,6 +120,26 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 
 	}
 
+	public boolean inativarCliente(Integer id) {
+		String sql = "UPDATE pessoa SET ativo = ? WHERE id = ?";
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+
+			cmd.setString(1, "NAO");
+			cmd.setInt(2, id);
+			int retorno = cmd.executeUpdate();
+			cmd.close();
+			if (retorno > 0) {
+
+			}
+
+			return retorno > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	@Override
 	public boolean atualizar(Pessoa novo) {
 		String sql = "UPDATE pessoa SET nome = ?, cpf_cnpj = ?, rg = ?, data_nascimento = ?, sexo = ? WHERE id = ?";
@@ -149,10 +169,32 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 
 	@Override
 	public List<Pessoa> listarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM pessoa WHERE ativo = 'SIM' ORDER BY nome";
+		Pessoa pessoa = null;
+		ArrayList<Pessoa> lista = new ArrayList<>();
+
+		try {
+			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+			ResultSet rs = cmd.executeQuery();
+			// enquanto houver um próximo registro, leia-os
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String nome = rs.getString("nome");
+				String cpfcnpj = rs.getString("cpf_cnpj");
+
+				pessoa = new Pessoa(id, nome, cpfcnpj, null, null, null, null, null, null, null, null, null);
+
+				lista.add(pessoa);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lista;
 	}
-	
+
 	public List<Pessoa> buscarDadosPorId(Integer id) {
 		String sql = "SELECT p.id, p.nome, p.cpf_cnpj, p.rg, DATE_FORMAT(p.data_nascimento, '%d/%m/%Y'), p.sexo, p.telefone_id, p.endereco_id, p.email_id, p.tipo, p.ativo, e.rua, e.bairro, e.numero, e.cidade, e.estado, e.cep, t.tel_comercial, t.tel_celular, t.tel_residencial, t.tel_whatsapp, m.email FROM pessoa AS p INNER JOIN endereco e INNER JOIN telefone t INNER JOIN email m ON e.id = p.endereco_id AND t.id = p.telefone_id AND m.id = p.email_id WHERE p.id ='"
 				+ id + "'";
@@ -185,7 +227,7 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 				String telWhatsapp = rs.getString("t.tel_whatsapp");
 
 				String emails = rs.getString("m.email");
-				
+
 				String tipo = rs.getString("p.tipo");
 				String ativo = rs.getString("p.ativo");
 
@@ -193,7 +235,8 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 				telefone = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
 				email = new Email(null, emails, emails);
 
-				Pessoa pesso = new Pessoa(ids, nome, CpfCnpj, rg, sexo, null, endereco, telefone, email, tipo, ativo, dataNascimento);
+				Pessoa pesso = new Pessoa(ids, nome, CpfCnpj, rg, sexo, null, endereco, telefone, email, tipo, ativo,
+						dataNascimento);
 				lista.add(pesso);
 
 			}
@@ -205,21 +248,20 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		return lista;
 	}
 
-
-	public List<Pessoa> buscarCpfCnpj(String campo) {
-		String sql = "SELECT * FROM pessoa WHERE cpf_cnpj = '" + campo + "'";
-		
+	public List<Pessoa> buscarCliente(String parametro, String pesquisa) {
+		String sql = "SELECT * FROM pessoa WHERE " + parametro + " like '" + pesquisa
+				+ "%' AND ativo = 'SIM' ORDER BY nome";
 		Pessoa pessoa = null;
 		ArrayList<Pessoa> lista = new ArrayList<>();
 
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			
+			// enquanto houver um próximo registro, leia-os
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
-				String cpfcnpj = rs.getString("cpf_cnpj)");
+				String cpfcnpj = rs.getString("cpf_cnpj");
 
 				pessoa = new Pessoa(id, nome, cpfcnpj, null, null, null, null, null, null, null, null, null);
 
@@ -233,9 +275,9 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 
 		return lista;
 	}
-	
-	public List<Pessoa> buscarNome(String campo) {
-		String sql = "SELECT * FROM pessoa WHERE nome like '" + campo + "%' AND ativo = 'SIM' ORDER BY nome";
+
+	public List<Pessoa> buscarCliente(String parametro) {
+		String sql = "SELECT * FROM pessoa WHERE " + parametro + " AND ativo = 'SIM' ORDER BY nome";
 		Pessoa pessoa = null;
 		ArrayList<Pessoa> lista = new ArrayList<>();
 
