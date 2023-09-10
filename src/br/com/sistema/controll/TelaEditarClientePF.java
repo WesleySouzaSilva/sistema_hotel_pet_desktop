@@ -1,7 +1,5 @@
 package br.com.sistema.controll;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,7 +42,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class TelaCadastroClientesPF {
+public class TelaEditarClientePF {
 
 	@FXML
 	private TextField txtNome;
@@ -109,18 +107,21 @@ public class TelaCadastroClientesPF {
 	private Date dataSql;
 	private Date dataHoje;
 	private Date dataMin;
+	private TelaPrincipalClientes telaPrincipalClientes = new TelaPrincipalClientes();
 	private Conexao conexao = new Conexao(Principal.getNomeBanco(), Principal.getUsuarioBanco(),
 			Principal.getSenhaBanco());
+	private static Integer telefoneId = null, enderecoId = null, emailId = null;
 
 	public void initialize() {
 
+		carregaDados();
 		carregaComboBoxSexo();
 		carregaComboBoxEstados();
 
 		cmbUf.setOnAction(e -> {
 			comboBoxCidadePorEstado();
 		});
-		
+
 		btnSalvar.setOnAction(e -> {
 			try {
 				acaoSalvar();
@@ -129,7 +130,7 @@ public class TelaCadastroClientesPF {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		btnSair.setOnAction(e -> {
 			acaoSairTela();
 		});
@@ -147,8 +148,6 @@ public class TelaCadastroClientesPF {
 		txtCep.focusedProperty().addListener(new ListenerFormatarCep(txtCep));
 		txtNumero.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(9));
 		txtRg.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(9));
-
-		txtDataNascimento.addEventFilter(KeyEvent.KEY_TYPED, new FiltroInteiro(8));
 
 		txtRua.textProperty().addListener(new ListenerParaMaiusculas(txtRua));
 		txtRua.addEventFilter(KeyEvent.KEY_TYPED, new FiltroLetras());
@@ -297,6 +296,29 @@ public class TelaCadastroClientesPF {
 		});
 	}
 
+	private void carregaDados() {
+		this.pessoaDAO = Principal.getPessoaDAO();
+		for (Pessoa pessoa : pessoaDAO.buscarDadosPorId(telaPrincipalClientes.getIdPessoa())) {
+			txtNome.setText(pessoa.getNome());
+			txtCpf.setText(pessoa.getCpfcnpj());
+			txtDataNascimento.setText(pessoa.getDataNascimentoFormatada());
+			txtBairro.setText(pessoa.getEndereco().getBairro());
+			txtCep.setText(pessoa.getEndereco().getCep());
+			txtEmail.setText(pessoa.getEmail().getEmail());
+			txtRua.setText(pessoa.getEndereco().getRua());
+			txtNumero.setText(pessoa.getEndereco().getNumero());
+			txtTelCelular.setText(pessoa.getTelefone().getTelCelular());
+			txtTelComercial.setText(pessoa.getTelefone().getTelComercial());
+			txtTelResidencial.setText(pessoa.getTelefone().getTelResidencial());
+			txtTelWhatsapp.setText(pessoa.getTelefone().getTelWhatsapp());
+			txtRg.setText(pessoa.getRg());
+			telefoneId = pessoa.getTelefone().getId();
+			enderecoId = pessoa.getEndereco().getId();
+			emailId = pessoa.getEmail().getId();
+		}
+		conexao.fecharConexao();
+
+	}
 
 	private void acaoSalvar() throws SQLException {
 
@@ -305,7 +327,6 @@ public class TelaCadastroClientesPF {
 				emai = null;
 
 		String cpf = null;
-		String cpfFormatado = null;
 		Date dataNascimento = null;
 
 		if (txtNome.getText().isEmpty()) {
@@ -324,20 +345,7 @@ public class TelaCadastroClientesPF {
 		if (txtCpf.getText().isEmpty()) {
 			cpf = new String("");
 		} else {
-			String cpfs = txtCpf.getText();
-			cpfFormatado = cpfs;
-
-			if (possuiCadastro(cpfFormatado)) {
-				ValidationFields.checkEmptyFields(txtCpf);
-				Alert dlg = new Alert(AlertType.INFORMATION);
-				dlg.setContentText("CPF " + txtCpf.getText() + " Já cadastrado");
-				dlg.showAndWait();
-				txtCpf.requestFocus();
-				return;
-
-			}
-			cpf = cpfFormatado;
-			System.out.println("cpf :" + cpf);
+			cpf = txtCpf.getText();
 		}
 
 		if (txtRg.getText().isEmpty()) {
@@ -465,42 +473,36 @@ public class TelaCadastroClientesPF {
 
 		ButtonType sim = new ButtonType("SIM", ButtonBar.ButtonData.YES);
 		ButtonType nao = new ButtonType("NÃO", ButtonBar.ButtonData.NO);
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente cadastrar os dados do NOVO CLIENTE PF ?", sim,
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Deseja realmente atualizar os dados do CLIENTE PF ?", sim,
 				nao);
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get().equals(sim)) {
-			Endereco enderecos = new Endereco(null, rua, bairro, numero, cidade, uf, cep);
+			Endereco enderecos = new Endereco(enderecoId, rua, bairro, numero, cidade, uf, cep);
 			this.enderecoDAO = Principal.getEnderecoDAO();
-			boolean sucess = enderecoDAO.inserir(enderecos);
-			if (sucess) {
-				enderecos.getId();
-				conexao.fecharConexao();
-			}
+			boolean sucess = enderecoDAO.atualizar(enderecos);
+			System.out.println("atualizou endereco : " + sucess);
+			conexao.fecharConexao();
 
-			Telefone telefones = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
+			Telefone telefones = new Telefone(telefoneId, telComercial, telCelular, telResidencial, telWhatsapp);
 			this.telefoneDAO = Principal.getTelefoneDAO();
-			boolean suce = telefoneDAO.inserir(telefones);
-			if (suce) {
-				telefones.getId();
-				conexao.fecharConexao();
-			}
+			boolean suce = telefoneDAO.atualizar(telefones);
+			System.out.println("atualizou telefone : " + suce);
+			conexao.fecharConexao();
 
-			Email emails = new Email(null, emai);
+			Email emails = new Email(emailId, emai);
 			this.emailDAO = Principal.getEmailDAO();
-			boolean su = emailDAO.inserir(emails);
-			if (su) {
-				emails.getId();
-				conexao.fecharConexao();
-			}
+			boolean su = emailDAO.atualizar(emails);
+			System.out.println("atualizou email : " + su);
+			conexao.fecharConexao();
 
-			Pessoa pessoa = new Pessoa(null, nome, cpf, rg, sexo, dataNascimento, enderecos, telefones, emails, tipo,
-					ativo, null);
+			Pessoa pessoa = new Pessoa(telaPrincipalClientes.getIdPessoa(), nome, cpf, rg, sexo, dataNascimento,
+					enderecos, telefones, emails, tipo, ativo, null);
 
 			this.pessoaDAO = Principal.getPessoaDAO();
-			boolean sucesso = pessoaDAO.inserir(pessoa);
+			boolean sucesso = pessoaDAO.atualizar(pessoa);
 			if (sucesso) {
 				Alert alerta = new Alert(AlertType.INFORMATION);
-				alerta.setHeaderText("Dados salvos com sucesso!");
+				alerta.setHeaderText("Dados atualizados com sucesso!");
 				alerta.showAndWait();
 				voltarTela();
 			}
@@ -552,9 +554,6 @@ public class TelaCadastroClientesPF {
 			Estado nome = cmbUf.getSelectionModel().getSelectedItem();
 			Estado id = estadoDAO.buscar(nome.getNome());
 
-			System.out.println("valor cmbEstado: " + nome);
-			System.out.println("valor Objeto estado: " + id.getId());
-
 			this.cidadeDAO = Principal.getCidadeDAO();
 			cmbCidade.getItems().addAll(cidadeDAO.buscarCidade(id.getId()));
 			cmbCidade.toString();
@@ -563,28 +562,9 @@ public class TelaCadastroClientesPF {
 
 	}
 
-
 	private void voltarTela() {
 		Stage stage = (Stage) btnSair.getScene().getWindow();
 		stage.close();
-	}
-
-	private boolean possuiCadastro(String campo) throws SQLException {
-		conexao = new Conexao(Principal.getNomeBanco(), Principal.getUsuarioBanco(), Principal.getSenhaBanco());
-		boolean result = false;
-
-		String sql = "SELECT * FROM pessoa WHERE cpf_cnpj = ? AND ativo = 'SIM'";
-
-		PreparedStatement cmd = conexao.getConexao().prepareStatement(sql);
-		cmd.setString(1, campo);
-		ResultSet rs = cmd.executeQuery();
-		if (rs.next()) {
-			result = true;
-
-		}
-
-		return result;
-
 	}
 
 	@FXML

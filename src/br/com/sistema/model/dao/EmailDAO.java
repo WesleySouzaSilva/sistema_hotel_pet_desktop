@@ -93,7 +93,7 @@ public class EmailDAO extends AbstractGenericDAO<Email> {
 				int ids = rs.getInt("e.id");
 				String email = rs.getString("e.email");
 
-				emails = new Email(ids, email, email);
+				emails = new Email(ids, email);
 
 			}
 			rs.close();

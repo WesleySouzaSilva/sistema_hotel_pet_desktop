@@ -401,7 +401,7 @@ public class TelaCadastroClientesPJ {
 				conexao.fecharConexao();
 			}
 
-			Email emails = new Email(null, emai, emai);
+			Email emails = new Email(null, emai);
 			this.emailDAO = Principal.getEmailDAO();
 			boolean su = emailDAO.inserir(emails);
 			if (su) {

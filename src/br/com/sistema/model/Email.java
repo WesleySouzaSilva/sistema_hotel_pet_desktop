@@ -9,7 +9,7 @@ public class Email {
 		
 	}
 
-	public Email(Integer id, String email, String emailNFS) {
+	public Email(Integer id, String email) {
 		super();
 		this.id = id;
 		this.email = email;

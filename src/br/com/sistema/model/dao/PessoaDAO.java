@@ -220,7 +220,9 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 				String numero = rs.getString("e.numero");
 				String rua = rs.getString("e.rua");
 				String estado = rs.getString("e.estado");
-
+				int enderecoId = rs.getInt("p.endereco_id");
+				int telefoneId = rs.getInt("p.telefone_id");
+				int emailId = rs.getInt("p.email_id");
 				String telCelular = rs.getString("t.tel_celular");
 				String telComercial = rs.getString("t.tel_comercial");
 				String telResidencial = rs.getString("t.tel_residencial");
@@ -231,9 +233,9 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 				String tipo = rs.getString("p.tipo");
 				String ativo = rs.getString("p.ativo");
 
-				endereco = new Endereco(null, rua, bairro, numero, cidade, estado, cep);
-				telefone = new Telefone(null, telComercial, telCelular, telResidencial, telWhatsapp);
-				email = new Email(null, emails, emails);
+				endereco = new Endereco(enderecoId, rua, bairro, numero, cidade, estado, cep);
+				telefone = new Telefone(telefoneId, telComercial, telCelular, telResidencial, telWhatsapp);
+				email = new Email(emailId, emails);
 
 				Pessoa pesso = new Pessoa(ids, nome, CpfCnpj, rg, sexo, null, endereco, telefone, email, tipo, ativo,
 						dataNascimento);
