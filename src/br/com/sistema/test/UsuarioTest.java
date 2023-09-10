@@ -14,12 +14,12 @@ import br.com.sistema.model.dao.UsuarioDAO;
 public class UsuarioTest {
 
 	private static Conexao conexao = new Conexao("sistema_pet", "sistema_pet", "bd_pet486231");
+	static UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 	private static Integer usuarioId = null;
 
 	@BeforeAll
 	public static void testInserirUsuarioComAtributosValidos() {
 		// criacao do usuario deve ser antes dos demais tests
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(null, "Alice", "senha123", "admin");
 		boolean inserido = usuarioDAO.inserir(usuario);
@@ -30,7 +30,6 @@ public class UsuarioTest {
 
 	@Test
 	public void testInserirUsuarioComAtributosNulos() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(null, null, null, null);
 		boolean inserido = usuarioDAO.inserir(usuario);
@@ -40,7 +39,6 @@ public class UsuarioTest {
 
 	@Test
 	public void testAtualizarUsuarioValido() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(usuarioId, "Bob", "novaSenha", "user");
 		boolean atualizado = usuarioDAO.atualizar(usuario);
@@ -50,7 +48,6 @@ public class UsuarioTest {
 
 	@Test
 	public void testAtualizarUsuarioComAtributosNulos() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(null, null, null, null);
 		boolean atualizado = usuarioDAO.atualizar(usuario);
@@ -60,7 +57,6 @@ public class UsuarioTest {
 
 	@Test
 	public void testDeletarUsuarioComIdNulo() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(null, null, null, null);
 		boolean deletado = usuarioDAO.apagar(usuario);
@@ -70,7 +66,6 @@ public class UsuarioTest {
 
 	@Test
 	public void testListarUsuarios() {
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		List<Usuario> usuarios = usuarioDAO.listarTodos();
 
@@ -80,7 +75,6 @@ public class UsuarioTest {
 	
 	@Test
     public void testBuscarNomeComNomeExistente() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         String nomeExistente = "Alice";
 
         List<Usuario> usuarios = usuarioDAO.buscarNome(nomeExistente);
@@ -92,7 +86,6 @@ public class UsuarioTest {
 
     @Test
     public void testBuscarNomeComNomeNaoExistente() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         String nomeNaoExistente = "NomeQueNaoExiste";
 
         List<Usuario> usuarios = usuarioDAO.buscarNome(nomeNaoExistente);
@@ -103,7 +96,6 @@ public class UsuarioTest {
 
     @Test
     public void testLogarComCredenciaisValidas() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         String usuarioValido = "Alice";
         String senhaValida = "senha123";
 
@@ -114,7 +106,6 @@ public class UsuarioTest {
 
     @Test
     public void testLogarComCredenciaisInvalidas() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         String usuarioInvalido = "UsuarioInvalido";
         String senhaInvalida = "SenhaInvalida";
 
@@ -125,7 +116,6 @@ public class UsuarioTest {
 
     @Test
     public void testBuscarIdComIdExistente() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         Integer idExistente = usuarioId;
 
         List<Usuario> usuarios = usuarioDAO.buscarId(idExistente);
@@ -137,7 +127,6 @@ public class UsuarioTest {
 
     @Test
     public void testBuscarIdComIdNaoExistente() {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
         Integer idNaoExistente = 10000000;
 
         List<Usuario> usuarios = usuarioDAO.buscarId(idNaoExistente);
@@ -149,7 +138,6 @@ public class UsuarioTest {
     @AfterAll
 	public static void testDeletarUsuarioValido() {
     	// esse test deve ser executado por ultimo
-		UsuarioDAO usuarioDAO = new UsuarioDAO(conexao);
 
 		Usuario usuario = new Usuario(usuarioId, null, null, null);
 		boolean deletado = usuarioDAO.apagar(usuario);
