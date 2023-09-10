@@ -19,68 +19,77 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 
 	@Override
 	public boolean inserir(Usuario pojo) {
-		String sql = "INSERT INTO usuario(nome, senha, permissao) VALUES(?, ?, ?)";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
-			cmd.setString(1, pojo.getNome());
-			cmd.setString(2, pojo.getSenha());
-			cmd.setString(3, pojo.getPermissao());
+		if (pojo.getNome() != null && pojo.getSenha() != null && pojo.getPermissao() != null) {
+			String sql = "INSERT INTO usuario(nome, senha, permissao) VALUES(?, ?, ?)";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
+				cmd.setString(1, pojo.getNome());
+				cmd.setString(2, pojo.getSenha());
+				cmd.setString(3, pojo.getPermissao());
 
-			int retorno = cmd.executeUpdate();
-			if (retorno > 0) {
-				// salva o id gerado pelo banco no próprio objeto
-				pojo.setId(ultimoID("usuario"));
+				int retorno = cmd.executeUpdate();
+				if (retorno > 0) {
+					// salva o id gerado pelo banco no próprio objeto
+					pojo.setId(ultimoID("usuario"));
+				}
+				cmd.close();
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-			cmd.close();
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override
 	public boolean apagar(Usuario pojo) {
-		String sqlPessoa = "DELETE FROM usuario WHERE id =?";
+		if (pojo.getId() != null) {
+			String sqlPessoa = "DELETE FROM usuario WHERE id =?";
 
-		try {
+			try {
 
-			PreparedStatement cmdPessoa = dbConnection.prepareStatement(sqlPessoa);
-			cmdPessoa.setInt(1, pojo.getId());
-			int retornoPessoa = cmdPessoa.executeUpdate();
-			cmdPessoa.close();
-			return retornoPessoa > 0;
+				PreparedStatement cmdPessoa = dbConnection.prepareStatement(sqlPessoa);
+				cmdPessoa.setInt(1, pojo.getId());
+				int retornoPessoa = cmdPessoa.executeUpdate();
+				cmdPessoa.close();
+				return retornoPessoa > 0;
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
+		return false;
 	}
 
 	@Override
 	public boolean atualizar(Usuario novo) {
-		String sql = "UPDATE usuario SET nome = ?, senha = ?, permissao = ? WHERE id = ?";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+		if (novo.getNome() != null && novo.getSenha() != null && novo.getPermissao() != null && novo.getId() != null) {
+			String sql = "UPDATE usuario SET nome = ?, senha = ?, permissao = ? WHERE id = ?";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
 
-			cmd.setString(1, novo.getNome());
-			cmd.setString(2, novo.getSenha());
-			cmd.setString(3, novo.getPermissao());
-			cmd.setInt(4, novo.getId());
+				cmd.setString(1, novo.getNome());
+				cmd.setString(2, novo.getSenha());
+				cmd.setString(3, novo.getPermissao());
+				cmd.setInt(4, novo.getId());
 
-			int retorno = cmd.executeUpdate();
-			cmd.close();
-			if (retorno > 0) {
-				// salva o id gerado pelo banco no próprio objeto
-				novo.setId(ultimoID("usuario"));
+				int retorno = cmd.executeUpdate();
+				cmd.close();
+				if (retorno > 0) {
+					// salva o id gerado pelo banco no próprio objeto
+					novo.setId(ultimoID("usuario"));
+				}
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override
