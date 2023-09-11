@@ -42,7 +42,7 @@ public class EstadoDAO extends AbstractGenericDAO<Estado> {
 		try {
 			Statement cmd = dbConnection.createStatement();
 			ResultSet rs = cmd.executeQuery(sql);
-			// enquanto houver um próximo registro, leia-os
+			// enquanto houver um prï¿½ximo registro, leia-os
 			while (rs.next()) {
 				String nome = rs.getString("nome");
 
@@ -68,7 +68,7 @@ public class EstadoDAO extends AbstractGenericDAO<Estado> {
 		try {
 			Statement cmd = dbConnection.createStatement();
 			ResultSet rs = cmd.executeQuery(sql);
-			// enquanto houver um próximo registro, leia-os
+			// enquanto houver um prï¿½ximo registro, leia-os
 			while (rs.next()) {
 
 				int ids = rs.getInt("id");
