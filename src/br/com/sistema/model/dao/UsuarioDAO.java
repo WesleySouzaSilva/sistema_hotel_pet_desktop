@@ -29,7 +29,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 
 				int retorno = cmd.executeUpdate();
 				if (retorno > 0) {
-					// salva o id gerado pelo banco no pr贸prio objeto
+					// salva o id gerado pelo banco no pr脙鲁prio objeto
 					pojo.setId(ultimoID("usuario"));
 				}
 				cmd.close();
@@ -39,8 +39,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 				e.printStackTrace();
 				return false;
 			}
-		}
-
+    }
 		return false;
 	}
 
@@ -67,7 +66,8 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 
 	@Override
 	public boolean atualizar(Usuario novo) {
-		if (novo.getNome() != null && novo.getSenha() != null && novo.getPermissao() != null) {
+
+		if (novo.getNome() != null && novo.getSenha() != null && novo.getPermissao() != null && novo.getId() != null) {
 			String sql = "UPDATE usuario SET nome = ?, senha = ?, permissao = ? WHERE id = ?";
 			try {
 				PreparedStatement cmd = dbConnection.prepareStatement(sql);
@@ -80,7 +80,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 				int retorno = cmd.executeUpdate();
 				cmd.close();
 				if (retorno > 0) {
-					// salva o id gerado pelo banco no pr贸prio objeto
+					// salva o id gerado pelo banco no pr脙鲁prio objeto
 					novo.setId(ultimoID("usuario"));
 				}
 
@@ -102,7 +102,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
+			// enquanto houver um pr贸ximo registro, leia-os
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
@@ -129,7 +129,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
+			// enquanto houver um pr贸ximo registro, leia-os
 			if (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
@@ -178,7 +178,7 @@ public class UsuarioDAO extends AbstractGenericDAO<Usuario> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
+			// enquanto houver um pr贸ximo registro, leia-os
 			if (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");

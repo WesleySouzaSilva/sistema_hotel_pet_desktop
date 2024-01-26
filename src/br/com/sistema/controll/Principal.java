@@ -11,6 +11,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import br.com.sistema.conexao.Conexao;
+import br.com.sistema.model.dao.CidadeDAO;
+import br.com.sistema.model.dao.EmailDAO;
+import br.com.sistema.model.dao.EnderecoDAO;
+import br.com.sistema.model.dao.EstadoDAO;
+import br.com.sistema.model.dao.PessoaDAO;
+import br.com.sistema.model.dao.TelefoneDAO;
 import br.com.sistema.model.dao.UsuarioDAO;
 import br.com.sistema.validadores.LeitorXml;
 import javafx.application.Application;
@@ -29,11 +35,23 @@ public class Principal extends Application {
 	private static String senhaBanco = null;
 	public static Conexao conexao = null;
 	public static UsuarioDAO usuarioDAO = null;
+	public static PessoaDAO pessoaDAO = null;
+	public static EnderecoDAO enderecoDAO = null;
+	public static EmailDAO emailDAO = null;
+	public static TelefoneDAO telefoneDAO = null;
+	public static EstadoDAO estadoDAO = null;
+	public static CidadeDAO cidadeDAO = null;
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 		carregaDados("/br/com/sistema/validadores/acesso_sistema.xml", true);
 		conexao = new Conexao(nomeBanco, usuarioBanco, senhaBanco);
 		usuarioDAO = new UsuarioDAO(conexao);
+		pessoaDAO = new PessoaDAO(conexao);
+		enderecoDAO = new EnderecoDAO(conexao);
+		emailDAO = new EmailDAO(conexao);
+		telefoneDAO = new TelefoneDAO(conexao);
+		estadoDAO = new EstadoDAO(conexao);
+		cidadeDAO = new CidadeDAO(conexao);
 		launch(args);
 		conexao.fecharConexao();
 	}
@@ -66,7 +84,8 @@ public class Principal extends Application {
 
 				for (List<String> cliente : lista) {
 
-					for (@SuppressWarnings("unused") String valor : cliente) {
+					for (@SuppressWarnings("unused")
+					String valor : cliente) {
 						nomeBanco = cliente.get(0);
 						usuarioBanco = cliente.get(1);
 						senhaBanco = cliente.get(2);
@@ -92,5 +111,29 @@ public class Principal extends Application {
 
 	public static String getUsuarioBanco() {
 		return usuarioBanco;
+	}
+
+	public static PessoaDAO getPessoaDAO() {
+		return pessoaDAO;
+	}
+
+	public static EnderecoDAO getEnderecoDAO() {
+		return enderecoDAO;
+	}
+
+	public static EmailDAO getEmailDAO() {
+		return emailDAO;
+	}
+
+	public static TelefoneDAO getTelefoneDAO() {
+		return telefoneDAO;
+	}
+
+	public static CidadeDAO getCidadeDAO() {
+		return cidadeDAO;
+	}
+
+	public static EstadoDAO getEstadoDAO() {
+		return estadoDAO;
 	}
 }
