@@ -18,152 +18,167 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 
 	public PessoaDAO(Conexao conexao) {
 		super(conexao);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean inserir(Pessoa pojo) {
-		String sql = "INSERT INTO pessoa(nome, cpf_cnpj, rg, data_nascimento, sexo, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+		if (pojo.getNome() != null && pojo.getEndereco().getId() != null && pojo.getEmail().getId() != null
+				&& pojo.getTelefone().getId() != null && pojo.getAtivo() != null && pojo.getTipo() != null) {
+			String sql = "INSERT INTO pessoa(nome, cpf_cnpj, rg, data_nascimento, sexo, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
 
-			cmd.setString(1, pojo.getNome());
-			cmd.setString(2, pojo.getCpfcnpj());
-			cmd.setString(3, pojo.getRg());
-			cmd.setDate(4, (Date) pojo.getDataNascimento());
-			cmd.setString(5, pojo.getSexo());
-			cmd.setInt(6, pojo.getEndereco().getId());
-			cmd.setInt(7, pojo.getEmail().getId());
-			cmd.setInt(8, pojo.getTelefone().getId());
-			cmd.setString(9, pojo.getAtivo());
-			cmd.setString(10, pojo.getTipo());
+				cmd.setString(1, pojo.getNome());
+				cmd.setString(2, pojo.getCpfcnpj());
+				cmd.setString(3, pojo.getRg());
+				cmd.setDate(4, (Date) pojo.getDataNascimento());
+				cmd.setString(5, pojo.getSexo());
+				cmd.setInt(6, pojo.getEndereco().getId());
+				cmd.setInt(7, pojo.getEmail().getId());
+				cmd.setInt(8, pojo.getTelefone().getId());
+				cmd.setString(9, pojo.getAtivo());
+				cmd.setString(10, pojo.getTipo());
 
-			int retorno = cmd.executeUpdate();
-			cmd.close();
-			if (retorno > 0) {
-				// salva o id gerado pelo banco no pr贸prio objeto
-				pojo.setId(ultimoID("pessoa"));
+				int retorno = cmd.executeUpdate();
+				cmd.close();
+				if (retorno > 0) {
+					pojo.setId(ultimoID("pessoa"));
+				}
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	public boolean inserirPJ(Pessoa pojo) {
-		String sql = "INSERT INTO pessoa(nome, cpf_cnpj, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+		if (pojo.getNome() != null && pojo.getCpfcnpj() != null && pojo.getEndereco().getId() != null
+				&& pojo.getEmail().getId() != null && pojo.getTelefone().getId() != null && pojo.getAtivo() != null
+				&& pojo.getTipo() != null) {
+			String sql = "INSERT INTO pessoa(nome, cpf_cnpj, endereco_id, email_id, telefone_id, ativo, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
 
-			cmd.setString(1, pojo.getNome());
-			cmd.setString(2, pojo.getCpfcnpj());
-			cmd.setInt(3, pojo.getEndereco().getId());
-			cmd.setInt(4, pojo.getEmail().getId());
-			cmd.setInt(5, pojo.getTelefone().getId());
-			cmd.setString(6, pojo.getAtivo());
-			cmd.setString(7, pojo.getTipo());
+				cmd.setString(1, pojo.getNome());
+				cmd.setString(2, pojo.getCpfcnpj());
+				cmd.setInt(3, pojo.getEndereco().getId());
+				cmd.setInt(4, pojo.getEmail().getId());
+				cmd.setInt(5, pojo.getTelefone().getId());
+				cmd.setString(6, pojo.getAtivo());
+				cmd.setString(7, pojo.getTipo());
 
-			int retorno = cmd.executeUpdate();
-			cmd.close();
-			if (retorno > 0) {
-				// salva o id gerado pelo banco no pr贸prio objeto
-				pojo.setId(ultimoID("pessoa"));
+				int retorno = cmd.executeUpdate();
+				cmd.close();
+				if (retorno > 0) {
+					pojo.setId(ultimoID("pessoa"));
+				}
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override
 	public boolean apagar(Pessoa pojo) {
-		// melhor usar ON DELETE CASCADE durante a cria莽茫o da tabela no
-		// constraint
-		String sqlPessoa = "DELETE FROM pessoa WHERE id =?";
-		String sqlEndereco = "DELETE FROM endereco WHERE id =?";
-		String sqlTelefone = "DELETE FROM telefone WHERE id = ?";
-		String sqlEmail = "DELETE FROM email WHERE id = ?";
+		if (pojo.getId() != null && pojo.getEndereco().getId() != null && pojo.getTelefone().getId() != null
+				&& pojo.getEmail().getId() != null) {
 
-		try {
-			PreparedStatement cmdEmail = dbConnection.prepareStatement(sqlEmail);
-			cmdEmail.setInt(1, pojo.getEmail().getId());
-			cmdEmail.executeUpdate();
-			cmdEmail.close();
+			String sqlPessoa = "DELETE FROM pessoa WHERE id =?";
+			String sqlEndereco = "DELETE FROM endereco WHERE id =?";
+			String sqlTelefone = "DELETE FROM telefone WHERE id = ?";
+			String sqlEmail = "DELETE FROM email WHERE id = ?";
 
-			PreparedStatement cmdTelefone = dbConnection.prepareStatement(sqlTelefone);
-			cmdTelefone.setInt(1, pojo.getTelefone().getId());
-			cmdTelefone.executeUpdate();
-			cmdTelefone.close();
+			try {
+				PreparedStatement cmdEmail = dbConnection.prepareStatement(sqlEmail);
+				cmdEmail.setInt(1, pojo.getEmail().getId());
+				cmdEmail.executeUpdate();
+				cmdEmail.close();
 
-			PreparedStatement cmdEndereco = dbConnection.prepareStatement(sqlEndereco);
-			cmdEndereco.setInt(1, pojo.getEndereco().getId());
-			cmdEndereco.executeUpdate();
-			cmdEndereco.close();
+				PreparedStatement cmdTelefone = dbConnection.prepareStatement(sqlTelefone);
+				cmdTelefone.setInt(1, pojo.getTelefone().getId());
+				cmdTelefone.executeUpdate();
+				cmdTelefone.close();
 
-			PreparedStatement cmdPessoa = dbConnection.prepareStatement(sqlPessoa);
-			cmdPessoa.setInt(1, pojo.getId());
-			int retornoPessoa = cmdPessoa.executeUpdate();
-			cmdPessoa.close();
-			return retornoPessoa > 0;
+				PreparedStatement cmdEndereco = dbConnection.prepareStatement(sqlEndereco);
+				cmdEndereco.setInt(1, pojo.getEndereco().getId());
+				cmdEndereco.executeUpdate();
+				cmdEndereco.close();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
+				PreparedStatement cmdPessoa = dbConnection.prepareStatement(sqlPessoa);
+				cmdPessoa.setInt(1, pojo.getId());
+				int retornoPessoa = cmdPessoa.executeUpdate();
+				cmdPessoa.close();
+				return retornoPessoa > 0;
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
+		return false;
 
 	}
 
 	public boolean inativarCliente(Integer id) {
-		String sql = "UPDATE pessoa SET ativo = ? WHERE id = ?";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+		if (id != null) {
+			String sql = "UPDATE pessoa SET ativo = ? WHERE id = ?";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
 
-			cmd.setString(1, "NAO");
-			cmd.setInt(2, id);
-			int retorno = cmd.executeUpdate();
-			cmd.close();
-			if (retorno > 0) {
+				cmd.setString(1, "NAO");
+				cmd.setInt(2, id);
+				int retorno = cmd.executeUpdate();
+				cmd.close();
+				if (retorno > 0) {
 
+				}
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
 
 	@Override
 	public boolean atualizar(Pessoa novo) {
-		String sql = "UPDATE pessoa SET nome = ?, cpf_cnpj = ?, rg = ?, data_nascimento = ?, sexo = ? WHERE id = ?";
-		try {
-			PreparedStatement cmd = dbConnection.prepareStatement(sql);
+		if (novo.getNome() != null && novo.getCpfcnpj() != null && novo.getRg() != null
+				&& novo.getDataNascimento() != null && novo.getSexo() != null && novo.getId() != null) {
+			String sql = "UPDATE pessoa SET nome = ?, cpf_cnpj = ?, rg = ?, data_nascimento = ?, sexo = ? WHERE id = ?";
+			try {
+				PreparedStatement cmd = dbConnection.prepareStatement(sql);
 
-			cmd.setString(1, novo.getNome());
-			cmd.setString(2, novo.getCpfcnpj());
-			cmd.setString(3, novo.getRg());
-			cmd.setDate(4, (Date) novo.getDataNascimento());
-			cmd.setString(5, novo.getSexo());
-			cmd.setInt(6, novo.getId());
+				cmd.setString(1, novo.getNome());
+				cmd.setString(2, novo.getCpfcnpj());
+				cmd.setString(3, novo.getRg());
+				cmd.setDate(4, (Date) novo.getDataNascimento());
+				cmd.setString(5, novo.getSexo());
+				cmd.setInt(6, novo.getId());
 
-			int retorno = cmd.executeUpdate();
-			cmd.close();
-			if (retorno > 0) {
-				// salva o id gerado pelo banco no pr贸prio objeto
-				novo.setId(ultimoID("pessoa"));
+				int retorno = cmd.executeUpdate();
+				cmd.close();
+				if (retorno > 0) {
+					novo.setId(ultimoID("pessoa"));
+				}
+
+				return retorno > 0;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
 			}
-
-			return retorno > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
+		return false;
 	}
-	
+
 	public boolean atualizarPJ(Pessoa novo) {
 		String sql = "UPDATE pessoa SET nome = ?, cpf_cnpj = ?, tipo = ?, ativo = ?  WHERE id = ?";
 		try {
@@ -178,7 +193,6 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 			int retorno = cmd.executeUpdate();
 			cmd.close();
 			if (retorno > 0) {
-				// salva o id gerado pelo banco no pr贸prio objeto
 				novo.setId(ultimoID("pessoa"));
 			}
 
@@ -198,7 +212,6 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
@@ -228,7 +241,6 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
 			while (rs.next()) {
 				int ids = rs.getInt("p.id");
 				String nome = rs.getString("p.nome");
@@ -281,7 +293,6 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");
@@ -308,7 +319,6 @@ public class PessoaDAO extends AbstractGenericDAO<Pessoa> {
 		try {
 			PreparedStatement cmd = dbConnection.prepareStatement(sql);
 			ResultSet rs = cmd.executeQuery();
-			// enquanto houver um pr髕imo registro, leia-os
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String nome = rs.getString("nome");

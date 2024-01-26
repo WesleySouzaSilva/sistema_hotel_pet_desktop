@@ -1,4 +1,4 @@
-package br.com.sistema.test;
+package model;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class UsuarioTest {
 	private static Integer usuarioId = null;
 
 	@BeforeAll
+	// criacao do usuario deve ser antes dos demais tests
 	public static void testInserirUsuarioComAtributosValidos() {
-		// criacao do usuario deve ser antes dos demais tests
 
 		Usuario usuario = new Usuario(null, "Alice", "senha123", "admin");
 		boolean inserido = usuarioDAO.inserir(usuario);
@@ -136,9 +136,8 @@ public class UsuarioTest {
     }
     
     @AfterAll
+    // esse test deve ser executado por ultimo
 	public static void testDeletarUsuarioValido() {
-    	// esse test deve ser executado por ultimo
-
 		Usuario usuario = new Usuario(usuarioId, null, null, null);
 		boolean deletado = usuarioDAO.apagar(usuario);
 
